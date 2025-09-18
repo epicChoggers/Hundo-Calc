@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/hundo-calc/static/css/main.e1931dcb.css",
-    "main.js": "/hundo-calc/static/js/main.25d6024e.js",
+    "main.css": "/hundo-calc/static/css/main.3c3d2c70.css",
+    "main.js": "/hundo-calc/static/js/main.861574d3.js",
     "index.html": "/hundo-calc/index.html",
-    "main.e1931dcb.css.map": "/hundo-calc/static/css/main.e1931dcb.css.map",
-    "main.25d6024e.js.map": "/hundo-calc/static/js/main.25d6024e.js.map"
+    "main.3c3d2c70.css.map": "/hundo-calc/static/css/main.3c3d2c70.css.map",
+    "main.861574d3.js.map": "/hundo-calc/static/js/main.861574d3.js.map"
   },
   "entrypoints": [
-    "static/css/main.e1931dcb.css",
-    "static/js/main.25d6024e.js"
+    "static/css/main.3c3d2c70.css",
+    "static/js/main.861574d3.js"
   ]
 }
