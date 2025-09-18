@@ -1,0 +1,26 @@
+{
+  "name": "hundo-calc",
+  "version": "1.0.0",
+  "description": "Pokémon GO Hundo Odds Calculator",
+  "private": true,
+  "homepage": "https://yourusername.github.io/hundo-calc",
+  "type": "module",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "gh-pages": "^6.1.1",
+    "vite": "^6.0.3"
+  }
+}
