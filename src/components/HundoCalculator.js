@@ -5,6 +5,27 @@ import './HundoCalculator.css';
 const HundoCalculator = () => {
   const [attempts, setAttempts] = useState({});
   const [selectedGroup, setSelectedGroup] = useState('raid-all');
+  const [customIvFloor, setCustomIvFloor] = useState(0);
+  const [customShinyRatio, setCustomShinyRatio] = useState("1/512"); // Default to 1/512
+
+  // Helper function to parse ratio string and convert to percentage
+  const parseRatioToPercentage = (ratioString) => {
+    try {
+      const parts = ratioString.split('/');
+      if (parts.length !== 2) return 0.195; // Default to 1/512 if invalid
+      
+      const numerator = parseFloat(parts[0]);
+      const denominator = parseFloat(parts[1]);
+      
+      if (denominator === 0 || isNaN(numerator) || isNaN(denominator)) {
+        return 0.195; // Default to 1/512 if invalid
+      }
+      
+      return (numerator / denominator) * 100;
+    } catch (error) {
+      return 0.195; // Default to 1/512 if parsing fails
+    }
+  };
 
   // Group data by category
   const categories = useMemo(() => {
@@ -20,8 +41,31 @@ const HundoCalculator = () => {
 
   // Get selected group data
   const selectedGroupData = useMemo(() => {
+    if (selectedGroup === 'custom') {
+      // Calculate hundo odds based on custom IV floor
+      const possibleValues = 16 - customIvFloor; // Number of possible IV values (customIvFloor to 15)
+      const favorableValues = 1; // Only 15-15-15 is a hundo
+      const hundoProbability = Math.pow(favorableValues / possibleValues, 3) * 100;
+      
+      // Parse custom shiny ratio to percentage
+      const customShinyPercentage = parseRatioToPercentage(customShinyRatio);
+      
+      return {
+        category: "Custom",
+        groupId: "custom",
+        methods: ["Custom Encounter"],
+        hundoOdds: `1/${Math.round(1 / (hundoProbability / 100))}`,
+        hundoOddsPercentage: hundoProbability,
+        ivFloor: `${customIvFloor}-${customIvFloor}-${customIvFloor}`,
+        minIvPercentage: Math.round((customIvFloor / 15) * 100),
+        description: "Custom encounter with user-defined IV floor and shiny odds",
+        shinyEncounterType: "custom",
+        customShinyOdds: customShinyPercentage,
+        customShinyRatio: customShinyRatio
+      };
+    }
     return hundoOddsData.find(item => item.groupId === selectedGroup);
-  }, [selectedGroup]);
+  }, [selectedGroup, customIvFloor, customShinyRatio]);
 
   // Handle input changes
   const handleAttemptChange = (value) => {
@@ -39,7 +83,15 @@ const HundoCalculator = () => {
     const numAttempts = attempts[selectedGroup] || 0;
     
     // Get shiny odds for this encounter type
-    const shinyOdds = getShinyOdds(selectedGroupData.shinyEncounterType);
+    let shinyOdds;
+    if (selectedGroupData.shinyEncounterType === 'custom') {
+      shinyOdds = {
+        odds: selectedGroupData.customShinyRatio,
+        percentage: selectedGroupData.customShinyOdds
+      };
+    } else {
+      shinyOdds = getShinyOdds(selectedGroupData.shinyEncounterType);
+    }
     const shinyProbability = calculateShinyProbability(numAttempts, shinyOdds.percentage);
     const shinyExpected = calculateExpectedShinies(numAttempts, shinyOdds.percentage);
     
@@ -122,6 +174,9 @@ const HundoCalculator = () => {
                 ))}
               </optgroup>
             ))}
+            <optgroup label="Custom">
+              <option value="custom">Custom Encounter</option>
+            </optgroup>
           </select>
         </div>
         
@@ -130,6 +185,33 @@ const HundoCalculator = () => {
             <span className="shiny-odds-text">
               Shiny odds: {result.shinyOdds.odds} ({result.shinyOdds.percentage}%) per encounter
             </span>
+          </div>
+        )}
+
+        {selectedGroup === 'custom' && (
+          <div className="custom-inputs">
+            <div className="custom-input-group">
+              <label htmlFor="custom-iv-floor">IV Floor (0-15):</label>
+              <input
+                id="custom-iv-floor"
+                type="number"
+                min="0"
+                max="15"
+                value={customIvFloor}
+                onChange={(e) => setCustomIvFloor(parseInt(e.target.value) || 0)}
+              />
+            </div>
+            <div className="custom-input-group">
+              <label htmlFor="custom-shiny-ratio">Shiny Odds (ratio):</label>
+              <input
+                id="custom-shiny-ratio"
+                type="text"
+                value={customShinyRatio}
+                onChange={(e) => setCustomShinyRatio(e.target.value)}
+                placeholder="1/512"
+                pattern="[0-9]+/[0-9]+"
+              />
+            </div>
           </div>
         )}
       </div>
