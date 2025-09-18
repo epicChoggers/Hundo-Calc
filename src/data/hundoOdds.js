@@ -16,19 +16,8 @@ export const hundoOddsData = [
   },
   {
     category: "Wild Catch",
-    groupId: "wild-weather",
-    methods: ["Wild Catch: Weather Boost"],
-    hundoOdds: "1/1,728",
-    hundoOddsPercentage: 0.058,
-    ivFloor: "4-4-4",
-    minIvPercentage: 27,
-    description: "Weather boosted wild encounters",
-    shinyEncounterType: "default"
-  },
-  {
-    category: "Wild Catch",
     groupId: "wild-mighty",
-    methods: ["Mighty Pokemon (includes Weather Boost)"],
+    methods: ["Mighty Pokemon"],
     hundoOdds: "1/27",
     hundoOddsPercentage: 3.704,
     ivFloor: "13-13-13",
@@ -74,12 +63,12 @@ export const hundoOddsData = [
   {
     category: "Raid",
     groupId: "raid-all",
-    methods: ["Base", "Weather Boost"],
+    methods: ["Raid"],
     hundoOdds: "1/216",
     hundoOddsPercentage: 0.463,
     ivFloor: "10-10-10",
     minIvPercentage: 67,
-    description: "All raid encounters (regular and weather boosted)",
+    description: "All raid encounters",
     shinyEncounterType: "legendary-raid"
   },
 
@@ -117,97 +106,74 @@ export const hundoOddsData = [
     ivFloor: "0-0-0",
     minIvPercentage: 0,
     description: "Regular Team Rocket encounters",
-    shinyEncounterType: "shadow-grunt"
-  },
-  {
-    category: "Team Rocket (Shadow)",
-    groupId: "rocket-weather",
-    methods: ["Grunts & Leaders: Weather Boost"],
-    hundoOdds: "1/1,728",
-    hundoOddsPercentage: 0.058,
-    ivFloor: "4-4-4",
-    minIvPercentage: 27,
-    description: "Weather boosted Team Rocket encounters",
-    shinyEncounterType: "shadow-grunt"
+    shinyEncounterType: "shadow-grunt",
+    purifiedOdds: "1/152",
+    purifiedOddsPercentage: 0.658
   },
   {
     category: "Team Rocket (Shadow)",
     groupId: "rocket-giovanni",
-    methods: ["Giovanni (includes Weather Boost)"],
+    methods: ["Giovanni"],
     hundoOdds: "1/1,000",
     hundoOddsPercentage: 0.100,
     ivFloor: "6-6-6",
     minIvPercentage: 40,
     description: "Giovanni encounters",
-    shinyEncounterType: "shadow-leader"
+    shinyEncounterType: "shadow-leader",
+    purifiedOdds: "1/37",
+    purifiedOddsPercentage: 2.700
   },
   {
     category: "Team Rocket (Shadow)",
     groupId: "rocket-raid",
-    methods: ["Raid (includes Weather Boost)"],
+    methods: ["Shadow Raid"],
     hundoOdds: "1/1,000",
     hundoOddsPercentage: 0.100,
     ivFloor: "6-6-6",
     minIvPercentage: 40,
     description: "Shadow raid encounters",
-    shinyEncounterType: "shadow-leader"
+    shinyEncounterType: "shadow-leader",
+    purifiedOdds: "1/37",
+    purifiedOddsPercentage: 2.700
+  },
+  {
+    category: "Team Rocket (Shadow)",
+    groupId: "rocket-raid-legendary",
+    methods: ["Legendary Shadow Raid"],
+    hundoOdds: "1/729",
+    hundoOddsPercentage: 0.137,
+    ivFloor: "7-7-7",
+    minIvPercentage: 47,
+    description: "Legendary shadow raid encounters",
+    shinyEncounterType: "legendary-raid",
+    purifiedOdds: "1/37",
+    purifiedOddsPercentage: 2.700
   },
   {
     category: "Team Rocket (Shadow)",
     groupId: "rocket-raid-boost",
-    methods: ["Raid w/ IV Boost (includes Weather Boost)"],
+    methods: ["Shadow Raid w/ IV Boost"],
     hundoOdds: "1/729",
     hundoOddsPercentage: 0.137,
     ivFloor: "7-7-7",
     minIvPercentage: 47,
     description: "Shadow raids with IV boost",
-    shinyEncounterType: "shadow-leader"
-  },
-
-  // Team Rocket (Shadow): If Purifying 13-13-13 and Higher
-  {
-    category: "Team Rocket (Shadow): If Purifying 13-13-13 and Higher",
-    groupId: "purify-regular",
-    methods: ["Grunts & Leaders"],
-    hundoOdds: "1/152",
-    hundoOddsPercentage: 0.658,
-    ivFloor: "n/a",
-    minIvPercentage: "n/a",
-    description: "Purified from regular Team Rocket encounters",
-    shinyEncounterType: "shadow-grunt"
+    shinyEncounterType: "shadow-leader",
+    purifiedOdds: "1/37",
+    purifiedOddsPercentage: 2.700
   },
   {
-    category: "Team Rocket (Shadow): If Purifying 13-13-13 and Higher",
-    groupId: "purify-weather",
-    methods: ["Grunts & Leaders: Weather Boost"],
-    hundoOdds: "1/64",
-    hundoOddsPercentage: 1.563,
-    ivFloor: "n/a",
-    minIvPercentage: "n/a",
-    description: "Purified from weather boosted Team Rocket encounters",
-    shinyEncounterType: "shadow-grunt"
-  },
-  {
-    category: "Team Rocket (Shadow): If Purifying 13-13-13 and Higher",
-    groupId: "purify-giovanni",
-    methods: ["Giovanni (includes Weather Boost)"],
-    hundoOdds: "1/37",
-    hundoOddsPercentage: 2.700,
-    ivFloor: "n/a",
-    minIvPercentage: "n/a",
-    description: "Purified from Giovanni encounters",
-    shinyEncounterType: "shadow-leader"
-  },
-  {
-    category: "Team Rocket (Shadow): If Purifying 13-13-13 and Higher",
-    groupId: "purify-raid",
-    methods: ["Raid"],
-    hundoOdds: "1/37",
-    hundoOddsPercentage: 2.700,
-    ivFloor: "n/a",
-    minIvPercentage: "n/a",
-    description: "Purified from shadow raid encounters",
-    shinyEncounterType: "shadow-leader"
+    category: "Team Rocket (Shadow)",
+    groupId: "rocket-raid-legendary-boost",
+    methods: ["Legendary Shadow Raid w/ IV Boost"],
+    hundoOdds: "1/729",
+    hundoOddsPercentage: 0.137,
+    ivFloor: "7-7-7",
+    minIvPercentage: 47,
+    description: "Legendary shadow raids with IV boost",
+    shinyEncounterType: "legendary-raid",
+    purifiedOdds: "1/37",
+    purifiedOddsPercentage: 2.700
   },
 
   // Trade - Typical [includes default 5% Lucky Chance]
@@ -220,7 +186,7 @@ export const hundoOddsData = [
     ivFloor: "0-0-0",
     minIvPercentage: 0,
     description: "Trading with friends (no friendship level)",
-    shinyEncounterType: "default"
+    shinyEncounterType: "trade-shiny"
   },
   {
     category: "Trade - Typical [includes default 5% Lucky Chance]",
@@ -231,7 +197,7 @@ export const hundoOddsData = [
     ivFloor: "1-1-1",
     minIvPercentage: 7,
     description: "Trading with good friends",
-    shinyEncounterType: "default"
+    shinyEncounterType: "trade-shiny"
   },
   {
     category: "Trade - Typical [includes default 5% Lucky Chance]",
@@ -242,7 +208,7 @@ export const hundoOddsData = [
     ivFloor: "2-2-2",
     minIvPercentage: 13,
     description: "Trading with great friends",
-    shinyEncounterType: "default"
+    shinyEncounterType: "trade-shiny"
   },
   {
     category: "Trade - Typical [includes default 5% Lucky Chance]",
@@ -253,7 +219,7 @@ export const hundoOddsData = [
     ivFloor: "3-3-3",
     minIvPercentage: 20,
     description: "Trading with ultra friends",
-    shinyEncounterType: "default"
+    shinyEncounterType: "trade-shiny"
   },
   {
     category: "Trade - Typical [includes default 5% Lucky Chance]",
@@ -264,7 +230,7 @@ export const hundoOddsData = [
     ivFloor: "5-5-5",
     minIvPercentage: 33,
     description: "Trading with best friends",
-    shinyEncounterType: "default"
+    shinyEncounterType: "trade-shiny"
   },
   {
     category: "Trade - Typical [includes default 5% Lucky Chance]",
@@ -275,7 +241,7 @@ export const hundoOddsData = [
     ivFloor: "12-12-12",
     minIvPercentage: 80,
     description: "Lucky trades",
-    shinyEncounterType: "default"
+    shinyEncounterType: "trade-shiny"
   },
 
   // Trade - Atypical [excludes default 5% Lucky Chance]
@@ -288,7 +254,7 @@ export const hundoOddsData = [
     ivFloor: "0-0-0",
     minIvPercentage: 0,
     description: "Trading without lucky chance consideration",
-    shinyEncounterType: "default"
+    shinyEncounterType: "trade-shiny"
   },
   {
     category: "Trade - Atypical [excludes default 5% Lucky Chance]",
@@ -299,7 +265,7 @@ export const hundoOddsData = [
     ivFloor: "1-1-1",
     minIvPercentage: 7,
     description: "Trading without lucky chance consideration",
-    shinyEncounterType: "default"
+    shinyEncounterType: "trade-shiny"
   },
   {
     category: "Trade - Atypical [excludes default 5% Lucky Chance]",
@@ -310,7 +276,7 @@ export const hundoOddsData = [
     ivFloor: "2-2-2",
     minIvPercentage: 13,
     description: "Trading without lucky chance consideration",
-    shinyEncounterType: "default"
+    shinyEncounterType: "trade-shiny"
   },
   {
     category: "Trade - Atypical [excludes default 5% Lucky Chance]",
@@ -321,7 +287,7 @@ export const hundoOddsData = [
     ivFloor: "3-3-3",
     minIvPercentage: 20,
     description: "Trading without lucky chance consideration",
-    shinyEncounterType: "default"
+    shinyEncounterType: "trade-shiny"
   },
   {
     category: "Trade - Atypical [excludes default 5% Lucky Chance]",
@@ -332,7 +298,7 @@ export const hundoOddsData = [
     ivFloor: "5-5-5",
     minIvPercentage: 33,
     description: "Trading without lucky chance consideration",
-    shinyEncounterType: "default"
+    shinyEncounterType: "trade-shiny"
   }
 ];
 
@@ -390,6 +356,11 @@ export const calculateExpectedShundos = (attempts, hundoOddsPercentage, shinyOdd
 
 // Shiny odds data
 export const shinyOddsData = {
+  "1:1": {
+    odds: "1/1",
+    percentage: 100.0,
+    encounters: ["Trades (assuming Pokemon being traded is shiny)"]
+  },
   "1:10": {
     odds: "1/10",
     percentage: 10.0,
@@ -441,6 +412,9 @@ export const shinyOddsData = {
 export const getShinyOdds = (encounterType) => {
   // Map encounter types to shiny odds
   const shinyMapping = {
+    // Trades (assuming Pokemon being traded is shiny)
+    "trade-shiny": "1:1",
+    
     // Raid Day, Research Day, Hatch Day, DAI Galar Birds
     "raid-day": "1:10",
     "research-day": "1:10", 
@@ -504,4 +478,54 @@ export const calculateExpectedShinies = (attempts, shinyOddsPercentage) => {
   
   const probability = shinyOddsPercentage / 100;
   return attempts * probability;
+};
+
+// Helper function to calculate purified hundo odds based on IV floor
+export const calculatePurifiedHundoOdds = (ivFloor) => {
+  if (ivFloor < 0 || ivFloor > 15) return 0;
+  
+  // For a purified hundo, the shadow must be ≥13/13/13 before purification
+  // Purification adds +2 to each IV, so we need 13+ to get 15 after purification
+  const minRequiredIv = 13;
+  
+  // Calculate probability that each IV is ≥13 given the IV floor
+  const possibleValues = 16 - ivFloor; // Number of possible IV values (ivFloor to 15)
+  const favorableValues = Math.max(0, 16 - minRequiredIv); // Number of favorable values (13 to 15)
+  
+  if (possibleValues === 0) return 0;
+  
+  const probabilityPerStat = favorableValues / possibleValues;
+  
+  // For a hundo, all three stats must be ≥13
+  const hundoProbability = Math.pow(probabilityPerStat, 3);
+  
+  return hundoProbability * 100; // Return as percentage
+};
+
+// Helper function to calculate purified shundo odds
+export const calculatePurifiedShundoProbability = (attempts, ivFloor, shinyOddsPercentage) => {
+  if (attempts <= 0) return 0;
+  
+  const purifiedHundoOdds = calculatePurifiedHundoOdds(ivFloor);
+  const shinyProbability = shinyOddsPercentage / 100;
+  
+  // Probability of getting both purified hundo AND shiny in a single encounter
+  const shundoProbability = (purifiedHundoOdds / 100) * shinyProbability;
+  
+  // Calculate probability of NOT getting a shundo in all attempts
+  const noShundoProbability = Math.pow(1 - shundoProbability, attempts);
+  
+  // Probability of getting at least one shundo
+  return (1 - noShundoProbability) * 100;
+};
+
+// Helper function to calculate expected number of purified shundos
+export const calculatePurifiedShundoExpected = (attempts, ivFloor, shinyOddsPercentage) => {
+  if (attempts <= 0) return 0;
+  
+  const purifiedHundoOdds = calculatePurifiedHundoOdds(ivFloor);
+  const shinyProbability = shinyOddsPercentage / 100;
+  const shundoProbability = (purifiedHundoOdds / 100) * shinyProbability;
+  
+  return attempts * shundoProbability;
 };

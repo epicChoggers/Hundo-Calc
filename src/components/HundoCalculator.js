@@ -37,29 +37,62 @@ const HundoCalculator = () => {
     if (!selectedGroupData) return null;
     
     const numAttempts = attempts[selectedGroup] || 0;
-    const hundoProbability = calculateHundoProbability(numAttempts, selectedGroupData.hundoOddsPercentage);
-    const hundoExpected = calculateExpectedHundos(numAttempts, selectedGroupData.hundoOddsPercentage);
     
     // Get shiny odds for this encounter type
     const shinyOdds = getShinyOdds(selectedGroupData.shinyEncounterType);
     const shinyProbability = calculateShinyProbability(numAttempts, shinyOdds.percentage);
     const shinyExpected = calculateExpectedShinies(numAttempts, shinyOdds.percentage);
     
-    // Calculate shundo (shiny hundo) odds - both conditions must be met
-    const shundoProbability = calculateShundoProbability(numAttempts, selectedGroupData.hundoOddsPercentage, shinyOdds.percentage);
-    const shundoExpected = calculateExpectedShundos(numAttempts, selectedGroupData.hundoOddsPercentage, shinyOdds.percentage);
-    
-    return {
-      ...selectedGroupData,
-      attempts: numAttempts,
-      hundoProbability,
-      hundoExpected,
-      shinyOdds,
-      shinyProbability,
-      shinyExpected,
-      shundoProbability,
-      shundoExpected
-    };
+    // For Team Rocket encounters, calculate both pre and post purification results
+    if (selectedGroupData.category === "Team Rocket (Shadow)") {
+      // Pre-purification results
+      const preHundoProbability = calculateHundoProbability(numAttempts, selectedGroupData.hundoOddsPercentage);
+      const preHundoExpected = calculateExpectedHundos(numAttempts, selectedGroupData.hundoOddsPercentage);
+      const preShundoProbability = calculateShundoProbability(numAttempts, selectedGroupData.hundoOddsPercentage, shinyOdds.percentage);
+      const preShundoExpected = calculateExpectedShundos(numAttempts, selectedGroupData.hundoOddsPercentage, shinyOdds.percentage);
+      
+      // Post-purification results
+      const postHundoProbability = calculateHundoProbability(numAttempts, selectedGroupData.purifiedOddsPercentage);
+      const postHundoExpected = calculateExpectedHundos(numAttempts, selectedGroupData.purifiedOddsPercentage);
+      const postShundoProbability = calculateShundoProbability(numAttempts, selectedGroupData.purifiedOddsPercentage, shinyOdds.percentage);
+      const postShundoExpected = calculateExpectedShundos(numAttempts, selectedGroupData.purifiedOddsPercentage, shinyOdds.percentage);
+      
+      return {
+        ...selectedGroupData,
+        attempts: numAttempts,
+        shinyOdds,
+        shinyProbability,
+        shinyExpected,
+        // Pre-purification results
+        preHundoProbability,
+        preHundoExpected,
+        preShundoProbability,
+        preShundoExpected,
+        // Post-purification results
+        postHundoProbability,
+        postHundoExpected,
+        postShundoProbability,
+        postShundoExpected
+      };
+    } else {
+      // Regular results for non-Team Rocket encounters
+      const hundoProbability = calculateHundoProbability(numAttempts, selectedGroupData.hundoOddsPercentage);
+      const hundoExpected = calculateExpectedHundos(numAttempts, selectedGroupData.hundoOddsPercentage);
+      const shundoProbability = calculateShundoProbability(numAttempts, selectedGroupData.hundoOddsPercentage, shinyOdds.percentage);
+      const shundoExpected = calculateExpectedShundos(numAttempts, selectedGroupData.hundoOddsPercentage, shinyOdds.percentage);
+      
+      return {
+        ...selectedGroupData,
+        attempts: numAttempts,
+        hundoProbability,
+        hundoExpected,
+        shinyOdds,
+        shinyProbability,
+        shinyExpected,
+        shundoProbability,
+        shundoExpected
+      };
+    }
   };
 
   const result = calculateResults();
@@ -68,7 +101,7 @@ const HundoCalculator = () => {
     <div className="hundo-calculator">
       <header className="calculator-header">
         <h1>Pokémon GO Hundo Calculator</h1>
-        <p>Calculate your odds of getting perfect IV Pokémon (hundos) based on your encounter history</p>
+      
       </header>
 
       <div className="calculator-controls">
@@ -95,7 +128,7 @@ const HundoCalculator = () => {
         {selectedGroupData && (
           <div className="shiny-info">
             <span className="shiny-odds-text">
-              Shiny odds: {result.shinyOdds.odds} ({result.shinyOdds.percentage}%)
+              Shiny odds: {result.shinyOdds.odds} ({result.shinyOdds.percentage}%) per encounter
             </span>
           </div>
         )}
@@ -107,8 +140,26 @@ const HundoCalculator = () => {
             <div className="method-header">
               <h3>{selectedGroupData.methods.length > 1 ? selectedGroupData.methods.join(', ') : selectedGroupData.methods[0]}</h3>
               <div className="method-stats">
-                <span className="odds">{selectedGroupData.hundoOdds}</span>
-                <span className="percentage">({selectedGroupData.hundoOddsPercentage}%)</span>
+                {selectedGroupData.category === "Team Rocket (Shadow)" ? (
+                  <div className="dual-odds-display">
+                    <div className="odds-display">
+                      <span className="odds-label">Pre-Purification:</span>
+                      <span className="odds">{selectedGroupData.hundoOdds} odds for Hundo</span>
+                      <span className="percentage">({selectedGroupData.hundoOddsPercentage}%)</span>
+                    </div>
+                    <div className="odds-display">
+                      <span className="odds-label">Post-Purification:</span>
+                      <span className="odds">{selectedGroupData.purifiedOdds} odds for Purified Hundo</span>
+                      <span className="percentage">({selectedGroupData.purifiedOddsPercentage}%)</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="odds-display">
+                    <span className="odds-label">Hundo Odds:</span>
+                    <span className="odds">{selectedGroupData.hundoOdds} odds for Hundo</span>
+                    <span className="percentage">({selectedGroupData.hundoOddsPercentage}%)</span>
+                  </div>
+                )}
               </div>
             </div>
             
@@ -136,53 +187,147 @@ const HundoCalculator = () => {
 
             {result && result.attempts > 0 && (
               <div className="results">
-                <div className="results-section">
-                  <h4 className="results-title">Hundo Results</h4>
-                  <div className="result-item">
-                    <span className="label">Probability of at least 1 hundo:</span>
-                    <span className="value probability">
-                      {result.hundoProbability.toFixed(3)}%
-                    </span>
-                  </div>
-                  <div className="result-item">
-                    <span className="label">Expected number of hundos:</span>
-                    <span className="value expected">
-                      {result.hundoExpected.toFixed(3)}
-                    </span>
-                  </div>
-                </div>
+                {result.category === "Team Rocket (Shadow)" ? (
+                  <>
+                    <div className="results-section">
+                      <h4 className="results-title">Hundo Results</h4>
+                      <div className="dual-results">
+                        <div className="result-group">
+                          <h5 className="result-group-title">Pre-Purification</h5>
+                          <div className="result-item">
+                            <span className="label">Probability of at least 1 hundo:</span>
+                            <span className="value probability">
+                              {result.preHundoProbability.toFixed(3)}%
+                            </span>
+                          </div>
+                          <div className="result-item">
+                            <span className="label">Expected number of hundos:</span>
+                            <span className="value expected">
+                              {result.preHundoExpected.toFixed(3)}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="result-group">
+                          <h5 className="result-group-title">Post-Purification</h5>
+                          <div className="result-item">
+                            <span className="label">Probability of at least 1 hundo:</span>
+                            <span className="value probability">
+                              {result.postHundoProbability.toFixed(3)}%
+                            </span>
+                          </div>
+                          <div className="result-item">
+                            <span className="label">Expected number of hundos:</span>
+                            <span className="value expected">
+                              {result.postHundoExpected.toFixed(3)}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-                <div className="results-section">
-                  <h4 className="results-title">Shiny Results</h4>
-                  <div className="result-item">
-                    <span className="label">Probability of at least 1 shiny:</span>
-                    <span className="value shiny-probability">
-                      {result.shinyProbability.toFixed(3)}%
-                    </span>
-                  </div>
-                  <div className="result-item">
-                    <span className="label">Expected number of shinies:</span>
-                    <span className="value shiny-expected">
-                      {result.shinyExpected.toFixed(3)}
-                    </span>
-                  </div>
-                </div>
+                    <div className="results-section">
+                      <h4 className="results-title">Shiny Results</h4>
+                      <div className="result-item">
+                        <span className="label">Probability of at least 1 shiny:</span>
+                        <span className="value shiny-probability">
+                          {result.shinyProbability.toFixed(3)}%
+                        </span>
+                      </div>
+                      <div className="result-item">
+                        <span className="label">Expected number of shinies:</span>
+                        <span className="value shiny-expected">
+                          {result.shinyExpected.toFixed(3)}
+                        </span>
+                      </div>
+                    </div>
 
-                <div className="results-section">
-                  <h4 className="results-title">Shundo Results (Shiny + Hundo)</h4>
-                  <div className="result-item">
-                    <span className="label">Probability of at least 1 shundo:</span>
-                    <span className="value shundo-probability">
-                      {result.shundoProbability.toFixed(3)}%
-                    </span>
-                  </div>
-                  <div className="result-item">
-                    <span className="label">Expected number of shundos:</span>
-                    <span className="value shundo-expected">
-                      {result.shundoExpected.toFixed(3)}
-                    </span>
-                  </div>
-                </div>
+                    <div className="results-section">
+                      <h4 className="results-title">Shundo Results (Shiny + Hundo)</h4>
+                      <div className="dual-results">
+                        <div className="result-group">
+                          <h5 className="result-group-title">Pre-Purification</h5>
+                          <div className="result-item">
+                            <span className="label">Probability of at least 1 shundo:</span>
+                            <span className="value shundo-probability">
+                              {result.preShundoProbability.toFixed(3)}%
+                            </span>
+                          </div>
+                          <div className="result-item">
+                            <span className="label">Expected number of shundos:</span>
+                            <span className="value shundo-expected">
+                              {result.preShundoExpected.toFixed(3)}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="result-group">
+                          <h5 className="result-group-title">Post-Purification</h5>
+                          <div className="result-item">
+                            <span className="label">Probability of at least 1 shundo:</span>
+                            <span className="value shundo-probability">
+                              {result.postShundoProbability.toFixed(3)}%
+                            </span>
+                          </div>
+                          <div className="result-item">
+                            <span className="label">Expected number of shundos:</span>
+                            <span className="value shundo-expected">
+                              {result.postShundoExpected.toFixed(3)}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="results-section">
+                      <h4 className="results-title">Hundo Results</h4>
+                      <div className="result-item">
+                        <span className="label">Probability of at least 1 hundo:</span>
+                        <span className="value probability">
+                          {result.hundoProbability.toFixed(3)}%
+                        </span>
+                      </div>
+                      <div className="result-item">
+                        <span className="label">Expected number of hundos:</span>
+                        <span className="value expected">
+                          {result.hundoExpected.toFixed(3)}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="results-section">
+                      <h4 className="results-title">Shiny Results</h4>
+                      <div className="result-item">
+                        <span className="label">Probability of at least 1 shiny:</span>
+                        <span className="value shiny-probability">
+                          {result.shinyProbability.toFixed(3)}%
+                        </span>
+                      </div>
+                      <div className="result-item">
+                        <span className="label">Expected number of shinies:</span>
+                        <span className="value shiny-expected">
+                          {result.shinyExpected.toFixed(3)}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="results-section">
+                      <h4 className="results-title">Shundo Results (Shiny + Hundo)</h4>
+                      <div className="result-item">
+                        <span className="label">Probability of at least 1 shundo:</span>
+                        <span className="value shundo-probability">
+                          {result.shundoProbability.toFixed(3)}%
+                        </span>
+                      </div>
+                      <div className="result-item">
+                        <span className="label">Expected number of shundos:</span>
+                        <span className="value shundo-expected">
+                          {result.shundoExpected.toFixed(3)}
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </div>
